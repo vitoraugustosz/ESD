@@ -23,8 +23,11 @@ public class Projeto {
         equipe.forEach(funcionario -> {
             custo[0] += funcionario.getSalario();
         });
-
+        
+        custo[0] += gerente.getSalario() + gerente.calcularBonus(equipe.size());
         // adicionar salario do gerente + bonus por funcionario
+
+        this.custoTotal = custo[0]; // atualizar valor
         return custo[0];
     }
 
@@ -33,7 +36,10 @@ public class Projeto {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+         if (aberto) {
+            this.nome = nome;
+         }
+         return;
     }
 
     public Gerente getGerente() {
@@ -41,7 +47,10 @@ public class Projeto {
     }
 
     public void setGerente(Gerente gerente) {
+        if (aberto) {
         this.gerente = gerente;
+        }
+        return;
     }
 
     public ArrayList<Funcionario> getEquipe() {
@@ -53,7 +62,10 @@ public class Projeto {
     }
 
     public void setEquipe(ArrayList<Funcionario> equipe) {
+         if (aberto) {
         this.equipe = equipe;
+         }
+         return;
     }
 
     public double getCustoTotal() {
@@ -61,13 +73,58 @@ public class Projeto {
     }
 
     public void setCustoTotal(double custoTotal) {
+         if (aberto) {
         this.custoTotal = custoTotal;
+         }
+         return;
     }
 
-    public void finalizarProjeto(){
-        this.aberto = false;
+    public void finalizar(){
+        if (aberto) {
+            this.equipe.forEach(f -> {
+                f.addBonusSalario(f.getSalario()*0.1);
+            });
+            calcularCusto(); //atualiza o valor
+            this.aberto = false;
+        }
+        return;
     }
 
+    public boolean isAberto() {
+        return this.aberto;
+    }
+
+    public boolean addFuncionario(Funcionario funcionario){
+        if (this.aberto){
+            this.equipe.add(funcionario);
+            this.custoTotal = calcularCusto(); //atualiza o valor
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeFuncionario(Funcionario funcionario){
+        if (this.aberto){
+            if(this.equipe.contains(funcionario)){
+                this.equipe.remove(funcionario);
+            this.custoTotal = calcularCusto(); //atualiza o valor
+            return true;
+            }
+            return false;
+            
+        }
+        return false;
+    }
+
+    public String listarEquipe(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Equipe do projeto ").append(this.nome).append(":\n");
+        sb.append("Gerente: ").append(this.gerente.getNome()).append("\n");
+        for (Funcionario funcionario : equipe) {
+            sb.append(funcionario.toString()).append("\n");
+        }
+        return sb.toString();
+    }
 
     @Override
     public String toString() {

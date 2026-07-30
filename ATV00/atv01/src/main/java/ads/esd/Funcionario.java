@@ -3,10 +3,10 @@ package ads.esd;
 public class Funcionario {
     private String cpf;
     private String nome;
-    private double salario;
+    private double salarioBase;
 
-    public Funcionario(double salario, String nome, String cpf) {
-        this.salario = salario;
+    public Funcionario(double salarioBase, String nome, String cpf) {
+        this.salarioBase = salarioBase;
         this.nome = nome;
         this.cpf = cpf;
     }
@@ -28,11 +28,15 @@ public class Funcionario {
     }
 
     public double getSalario() {
-        return salario;
+        return salarioBase;
     }
 
     public void setSalario(double salario) {
-        this.salario = salario;
+        this.salarioBase = salario;
+    }
+
+    public void addBonusSalario(double bonus) {
+        this.salarioBase += bonus;
     }
 
     @Override
@@ -40,7 +44,7 @@ public class Funcionario {
         final StringBuilder sb = new StringBuilder("Funcionario{");
         sb.append("cpf=").append(cpf);
         sb.append(", nome='").append(nome).append('\'');
-        sb.append(", salario=").append(salario);
+        sb.append(", salarioBase=").append(salarioBase);
         sb.append('}');
         return sb.toString();
     }

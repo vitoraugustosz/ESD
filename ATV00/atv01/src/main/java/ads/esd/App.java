@@ -38,7 +38,7 @@ public class App {
 
         app.menu(entrada);
         
-        return
+        return;
         
     }
 
@@ -120,7 +120,7 @@ public class App {
             i = IO.readln("Deseja adicionar outro funcionário ao projeto? S (Sim) / N (Não)");
         } while(i.equalsIgnoreCase("S"));
 
-        Projeto novoProjeto = new Projeto(nomeProjeto, gerente[0], equipe);
+        Projeto novoProjeto = new Projeto(nomeProjeto, (Gerente) gerente[0], equipe);
     }
 
     public void listarProjetos() {
@@ -144,21 +144,21 @@ public class App {
 
     public void acessarProjeto() {
         String nomeProjeto = IO.readln("Digite o nome do projeto que deseja acessar");
-        Projeto projeto = null;
+        Projeto[] projeto = new Projeto[1];
         projetos.forEach(p -> {
             if (p.getNome().equals(nomeProjeto)){
-                projeto = p;
+                projeto[0] = p;
             }
         });
 
-        switch (opcoesProjeto(projeto)) {
-            case 1 -> System.out.println(projeto); 
-            case 2 -> System.out.println(projeto.listarEquipe());
-            case 3 -> substituirGerente(projeto); //so vai acessar o projeto e trocar pelo informado
-            case 4 -> adicionarFuncionario(projeto); // bota na array
-            case 5 -> removerFuncionario(projeto); // tira da array
-            case 6 -> System.out.println(projeto.getCustoTotal());
-            case 7 -> projeto.finalizar();
+        switch (opcoesProjeto(projeto[0])) {
+            case 1 -> System.out.println(projeto[0]);
+            case 2 -> System.out.println(projeto[0].listarEquipe());
+            case 3 -> substituirGerente(projeto[0]); //so vai acessar o projeto e trocar pelo informado
+            case 4 -> adicionarFuncionario(projeto[0]); // bota na array
+            case 5 -> removerFuncionario(projeto[0]); // tira da array
+            case 6 -> System.out.println(projeto[0].getCustoTotal());
+            case 7 -> projeto[0].finalizar();
         }
 
     }
@@ -175,7 +175,7 @@ public class App {
                 7 - Finalizar projeto
                 8 - Voltar ao menu principal
 
-                """, projeto.getNome()));
+                """));
 
                 return entrada;
     }

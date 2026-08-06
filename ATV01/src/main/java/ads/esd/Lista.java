@@ -1,6 +1,7 @@
 package ads.esd;
 
-import javax.management.InstanceAlreadyExistsException;
+import java.util.NoSuchElementException;
+
 
 public class Lista {
 
@@ -11,7 +12,9 @@ public class Lista {
         this.tamanho = tamanho;
     }
 
-    public void adicionarContato(Contato contato) {
+
+
+    public void adicionarContato(Contato contato) { 
         for (Contato c : lista){
             if (c.getNome().equals(contato.getNome())){
                 throw new ContatoExistenteException("Este contato já existe");
@@ -20,12 +23,21 @@ public class Lista {
                 throw new ContatoExistenteException("Este contato já existe");
             }
             else {
-                this.add(contato);
+                this.add(contato); //manda colocar esse contato na lista
             }
         }
     }
 
-    protected void add (Contato c) {
+
+    public void adicionarContatos(Contato[] array) {
+        for (Contato contato : array) {
+            adicionarContato(contato);
+        }
+    }
+
+
+
+    protected void add (Contato c) { // coloca o contato na lista. Usuário não tem acesso
         if (tamanho < lista.length) {
             lista[tamanho] = c;
             tamanho++;
@@ -34,7 +46,7 @@ public class Lista {
         }
     }
 
-    public void remove(int indice) {
+    public void remove(int indice) { 
         if (indice < 0 || indice >= tamanho) {
             throw new IndexOutOfBoundsException("Índice inválido");
         }
@@ -47,15 +59,15 @@ public class Lista {
         tamanho--; // atualiza valor do tamanho
     }
 
-    public void remove(String nome){
+    public void remove(String nome){//tira o contato pelo nome (tira fulano)
         for (int j = 0; j < lista.length; j++) {
-            if (lista[j].getNome().equals(nome)){
+            if (lista[j].getNome().equals(nome)){ //pega o indice e manda pra oura
                 remove(j);
             }
         }
     }
 
-    public Contato get(String nomeOuNumero){
+    public Contato get(String nomeOuNumero){ //get, pega um contato na lista
         for (Contato contato : lista) {
             if (contato.getNome().equalsIgnoreCase(nomeOuNumero)){
                 return contato;
@@ -64,6 +76,29 @@ public class Lista {
             }
         }
         return null;
+    }
+
+    public int getContatoIndex(Contato contato){ //retorna o indice do contato 
+        for (int i = 0; i < lista.length; i++) {
+            if (lista[i].getNumero().equalsIgnoreCase(contato.getNumero()) && lista[i].getNome().equalsIgnoreCase(contato.getNome())) {
+                return i;
+            }
+        }
+       throw new NoSuchElementException("Valor inexistente");
+
+    }
+
+    public void atualize(Contato contato, String nome, String numero){ //sem email
+        int index = getContatoIndex(contato);
+        lista[index].setNome(nome);
+        lista[index].setNumero(numero);
+    }
+
+    public void atualize(Contato contato, String nome, String numero, String email){ //com email
+        int index = getContatoIndex(contato);
+        lista[index].setNome(nome);
+        lista[index].setNumero(numero);
+        lista[index].setEmail(email);
     }
 
     public String list(){
@@ -77,6 +112,7 @@ public class Lista {
         return sb.toString();
     }
 
+    
 
 
 }

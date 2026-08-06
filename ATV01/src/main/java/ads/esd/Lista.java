@@ -5,33 +5,40 @@ import java.util.NoSuchElementException;
 
 public class Lista {
 
-    private Contato[] lista;
+    private final Contato[] lista;
     private int tamanho;
 
     public Lista(int tamanho) {
-        this.tamanho = tamanho;
+        lista = new Contato[tamanho];
     }
 
 
 
-    public void adicionarContato(Contato contato) { 
-        for (Contato c : lista){
-            if (c.getNome().equals(contato.getNome())){
-                throw new ContatoExistenteException("Este contato já existe");
-            }
-            if (c.getNumero().equals(contato.getNumero())){
-                throw new ContatoExistenteException("Este contato já existe");
-            }
-            else {
+    public void adicionarContato(Contato contato) {
+        for (int i = 0; i < lista.length; i++) {
+            if (lista[i] == null){
                 this.add(contato); //manda colocar esse contato na lista
+                break;
+            }
+            if (lista[i].getNome().equals(contato.getNome())){
+                throw new ContatoExistenteException("Este contato já existe");
+            }
+            if (lista[i].getNumero().equals(contato.getNumero())){
+                throw new ContatoExistenteException("Este contato já existe");
             }
         }
-    }
+        }
+
 
 
     public void adicionarContatos(Contato[] array) {
-        for (Contato contato : array) {
-            adicionarContato(contato);
+
+        if (array.length + tamanho > lista.length) {
+            throw new IndexOutOfBoundsException("Ultrapassa o tamanho da array");
+        } else {
+            for (Contato contato : array) {
+                adicionarContato(contato);
+            }
         }
     }
 
@@ -105,10 +112,14 @@ public class Lista {
         StringBuilder sb = new StringBuilder();
         sb.append("Lista de contatos").append("\n");
 
-        for (Contato c : lista){
-            sb.append(c.getNome()).append(" - ").append(c.getNumero()).append("\n");
-        }
+        for (int i = 0; i < lista.length; i++) {
+            if (lista[i] == null) {
+                sb.append("\n");
+            } else {
+                sb.append(lista[i].getNome()).append(" - ").append(lista[i].getNumero()).append("\n");
 
+            }
+        }
         return sb.toString();
     }
 

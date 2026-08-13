@@ -6,7 +6,7 @@ public class ex3 {
     static void main() {
         VetorEstatico vetor = new VetorEstatico(10);
 
-        array[2] = "A";
+
         vetor.inserir("A");
         vetor.inserir("B");
         vetor.inserir("C");

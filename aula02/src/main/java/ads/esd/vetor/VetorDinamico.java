@@ -52,16 +52,7 @@ public class VetorDinamico {
 
 
 
-    public void imprimir() {
-        System.out.print("[");
-        for (int i = 0; i < elementos.length ; i++) {
-            System.out.print(elementos[i]);
-            if (i < elementos.length -1) {
-                System.out.print(", ");
-            }
-        }
-        System.out.println("]");
-    }
+
 
 
 

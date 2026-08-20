@@ -106,6 +106,23 @@ public class Vetor<T> {
     }
 
 
+    public int buscaLinear(int alvo){
+
+        for (int i = 0; i < elementos.length; i++) {
+            if ((Integer) elementos[i] == alvo){
+                return i;
+            }
+            if ((Integer) elementos[i] > alvo){ // Se passou do número, ele não existe
+                return -1;
+            }
+        }
+        return -1;
+    }
+
+    public int buscaBinaria(int alvo){
+        return
+    }
+
     @Override
     public String toString() {
         return "Vetor{" +

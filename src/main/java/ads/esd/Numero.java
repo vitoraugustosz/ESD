@@ -1,5 +1,6 @@
+package ads.esd;
 
-public class Numero {
+public class Numero implements Comparable<Numero> {
 
     public Numero() {
         this.valor = 0;

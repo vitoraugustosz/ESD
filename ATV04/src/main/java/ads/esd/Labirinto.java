@@ -1,4 +1,6 @@
-package atividade;
+package ads.esd;
+
+import java.util.Stack;
 
 public class Labirinto {
 
@@ -56,6 +58,17 @@ public class Labirinto {
     private int colunaInicial = 0;
     private int linhaFinal = 21;
     private int colunaFinal = 49;
+    private Posicao posicaoAtual;
+    private Stack<Posicao> pilha;
+
+    public Labirinto(char simbolo) {
+        this.posicaoAtual = new Posicao(linhaInicial, colunaInicial, simbolo);
+        this.pilha = new Stack<>();
+        pilha.push(posicaoAtual);
+    }
+
+
+
 
     public void imprimir() {
 
@@ -68,14 +81,71 @@ public class Labirinto {
         }
     }
 
+    public void verificarVizinhos() {
+        Stack<Posicao> pilhaVizinhos = new Stack<>();
 
 
+        Posicao cima = new Posicao(this.posicaoAtual.getX(), this.posicaoAtual.getY() - 1);
+        Posicao baixo = new Posicao(this.posicaoAtual.getX(), this.posicaoAtual.getY() + 1);
+        Posicao esq = new Posicao(this.posicaoAtual.getX() - 1, this.posicaoAtual.getY());
+        Posicao dir = new Posicao(this.posicaoAtual.getX() + 1, this.posicaoAtual.getY());
 
+
+        pilhaVizinhos.push(cima);
+        pilhaVizinhos.push(baixo);
+        pilhaVizinhos.push(esq);
+        pilhaVizinhos.push(dir);
+
+        Posicao visitado = posicaoAtual;
+
+        while (!pilhaVizinhos.empty()) { //se tem posição para percorrer
+            Posicao p = pilhaVizinhos.pop();
+            if (validarPosicao(p)){
+                visitado = (validarPosicao(p)) ? p : posicaoAtual;
+                posicaoAtual = p; //andou
+                return; // fizemos nosso trabalho
+            }
+        }
+
+        if (pilhaVizinhos.empty()) { //se nenhum vizinho é válido
+
+            this.posicaoAtual = visitado;
+        }
+
+    }
+
+
+    public boolean validarPosicao(Posicao p){
+        if (p.getY() < 0 || p.getX() < 0) {
+            return false;
+        }
+        if (mapa[p.getX()][p.getY()] == '*'){
+            return false;
+        } else if (mapa[p.getX()][p.getY()] != ' '){
+            return false;
+        } else {
+            mapa[p.getX()][p.getY()] = '.'; //atualiza simbolo no mapa
+            return true;
+        }
+    }
+
+    public boolean foiVisitado(Posicao p){
+        if (p.getY() < 0 || p.getX() < 0) {
+            return false;
+        }
+        if (mapa[p.getX()][p.getY()] == '*'){
+            return false;
+        } else if (mapa[p.getX()][p.getY()] != '.'){
+            return false;
+        } else {
+            mapa[p.getX()][p.getY()] = '.'; //atualiza simbolo no mapa
+            return true;
+        }
+    }
 
 
 
     public static void main(String[] args) {
-        Labirinto labirinto = new Labirinto();
-        labirinto.imprimir();
+
     }
 }

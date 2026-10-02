@@ -68,7 +68,8 @@ public class Servidor {
         sb.append("Foram geradas:").append(this.totalRegGeradas).append("\n");
         sb.append("Foram atendidas: ").append(this.totalRegAtendidas).append("\n");
         sb.append("Você perdeu:").append(this.totalRegPerdidas).append("\n");
-        sb.append((this.totalRegPerdidas*100)/this.totalRegGeradas).append("% de requisicoes perdidas");
+
+        sb.append(((double) this.totalRegPerdidas*100)/this.totalRegGeradas).append("% de requisicoes perdidas");
 
         return sb.toString();
     }
